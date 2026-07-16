@@ -132,6 +132,7 @@ h1{
 /* ==================== LAYOUT ==================== */
 .grid{display:grid; grid-template-columns:378px 1fr; gap:24px; align-items:start;}
 @media (max-width:880px){ .grid{grid-template-columns:1fr;} }
+#results{min-width:0;} /* impede que a tabela larga force o grid (e a página) a esticar horizontalmente */
 
 .panel{
   background:var(--bg-card); border:1px solid var(--bd); border-radius:var(--radius-lg);
@@ -259,15 +260,17 @@ select{
 table{width:100%; border-collapse:separate; border-spacing:0; font-size:.79rem; font-variant-numeric:tabular-nums;}
 thead th{
   text-align:left; font-family:'DM Mono',monospace; font-weight:600; font-size:.63rem; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--tx3); border-bottom:1px solid var(--bd); padding:11px 10px;
+  text-transform:uppercase; color:var(--tx3); border-bottom:1px solid var(--bd); padding:11px 8px;
   background:var(--bg-card2); position:sticky; top:0;
 }
 thead th:first-child{border-top-left-radius:8px;}
 thead th:last-child{border-top-right-radius:8px;}
 thead th:nth-child(n+5), tbody td:nth-child(n+5){text-align:right; font-variant-numeric:tabular-nums;}
-tbody td{padding:13px 10px; border-bottom:1px solid var(--bd); font-family:'DM Mono',monospace; color:var(--tx); transition:background .12s;}
+tbody td{padding:13px 8px; border-bottom:1px solid var(--bd); font-family:'DM Mono',monospace; color:var(--tx); transition:background .12s;}
 tbody td:nth-child(3){color:var(--tx3); font-size:.73rem; max-width:230px;}
 tbody td:nth-child(4){color:var(--tx3); font-size:.73rem; white-space:nowrap;}
+tbody td:nth-child(6){max-width:100px; white-space:normal;}
+tbody td:nth-child(8){max-width:90px; white-space:normal;}
 tbody tr{transition:background .12s;}
 tbody tr:hover td{background:var(--bg-card2);}
 tbody tr:last-child td{border-bottom:none;}
@@ -277,10 +280,10 @@ tbody tr.winner td:first-child{border-left:3px solid var(--gold); padding-left:9
 
 .figure-muted{color:var(--tx3) !important;}
 .figure-strong{color:var(--tx); font-weight:700;}
-.winner-name{display:inline-flex; align-items:center; gap:8px;}
+.winner-name{display:flex; flex-direction:column; align-items:flex-start; gap:4px;}
 .winner-badge{
   font-family:'DM Mono',monospace; font-size:.58rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  color:#0A0D16; background:linear-gradient(145deg, var(--gold2), var(--gold)); padding:2.5px 8px; border-radius:5px;
+  color:#0A0D16; background:linear-gradient(145deg, var(--gold2), var(--gold)); padding:2px 7px; border-radius:5px;
   white-space:nowrap;
 }
 
@@ -1160,7 +1163,7 @@ function generatePDF(results, basis){
         styles:{ font:'helvetica', fontSize:8, cellPadding:2.6, textColor:NAVY, lineColor:[225,228,238], lineWidth:.15 },
         headStyles:{ fillColor:NAVY, textColor:255, fontStyle:'bold', fontSize:7.6 },
         alternateRowStyles:{ fillColor:[247,248,252] },
-        columnStyles:{ 3:{halign:'right'}, 4:{halign:'right'}, 5:{halign:'right'}, 6:{halign:'right', fontStyle:'bold'} },
+        columnStyles:{ 3:{halign:'right', cellWidth:25}, 4:{halign:'right'}, 5:{halign:'right', cellWidth:25}, 6:{halign:'right', fontStyle:'bold'} },
         didParseCell: (data)=>{
           if(data.section==='body' && results[data.row.index] && results[data.row.index].id === winner.id){
             data.cell.styles.fillColor = [250,244,228];
